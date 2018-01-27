@@ -9,6 +9,7 @@
   },
   "scripts": {
     "lint": "eslint --color --ext=js,html src test example docs",
+    "test": "npm run lint",
     "prepublishOnly": "rollit"
   },
   "files": [
