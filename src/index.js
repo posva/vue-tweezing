@@ -60,7 +60,8 @@ export const Tweezing = {
   install (Vue, options = {}) {
     Vue.component(options.name || 'Tweezing', Tweezing)
     const defaultTweener = options.default
-    // could have used {name, default, ...options} but it's not well supported by buble
+    // could have used {name, default, ...options} but I don't really like
+    // the way bubel polyfills it (even in es)
     delete options.name
     delete options.default
     const tweenerNames = Object.keys(options)
