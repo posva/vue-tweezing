@@ -19,7 +19,6 @@ export const Tweezing = {
   created () {
     // ensure the watcher of tween to be called first so
     // tweenFn exists in `to` watcher
-    console.log('created')
     this.$options.watch.tween.call(this, this.tween)
     this.value = this.to
     this.$options.watch.to.call(this, this.to)
@@ -42,7 +41,6 @@ export const Tweezing = {
 
   watch: {
     tween  (tween) {
-      console.log('tween')
       if (typeof tween === 'function') {
         this.tweenFn = tween
       } else {
@@ -51,7 +49,6 @@ export const Tweezing = {
       }
     },
     to (to, old) {
-      console.log('to')
       this.$tween = this.tweenFn(this.value, to, this.$attrs)
     },
   },
