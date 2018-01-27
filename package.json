@@ -7,6 +7,9 @@
     "name": "Eduardo San Martin Morote",
     "email": "posva13@gmail.com"
   },
+  "scripts": {
+    "prepublishOnly": "rollit"
+  },
   "files": [
     "src",
     "dist",
