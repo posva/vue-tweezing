@@ -1,5 +1,4 @@
-vue-tweezing
-===
+# vue-tweezing [![Build Status](https://img.shields.io/circleci/project/posva/vue-tweezing/master.svg)](https://circleci.com/gh/posva/vue-tweezing) [![npm package](https://img.shields.io/npm/v/vue-tweezing.svg)](https://www.npmjs.com/package/vue-tweezing) [![coverage](https://img.shields.io/codecov/c/github/posva/vue-tweezing.svg)](https://codecov.io/github/posva/vue-tweezing)
 
 > Easy, customizable and automatic tweening nicely served in scoped slots
 
