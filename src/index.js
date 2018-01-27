@@ -7,7 +7,7 @@ export const Tweezing = {
     tween: {
       type: [String, Function],
       default: () => 'default',
-    }
+    },
   },
 
   data () {
@@ -37,7 +37,7 @@ export const Tweezing = {
   methods: {
     done () {
       this.$emit('done')
-    }
+    },
   },
 
   watch: {
@@ -70,7 +70,7 @@ export const Tweezing = {
     })
     // Use the first one or anyone provided by the user
     tweeners.default = tweeners[defaultTweener || tweenerNames[0]]
-  }
+  },
 }
 
 // helper for tweezer.js
@@ -79,7 +79,7 @@ export function tweezerHelper (Tweezer) {
     return new Tweezer({
       start,
       end,
-      ...opts
+      ...opts,
     }).on('tick', value => {
       this.value = value
     }).on('done', () => this.done())
