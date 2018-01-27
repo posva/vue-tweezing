@@ -1,11 +1,11 @@
 {
   "src": {
     "tagName": "v%s",
-    "commitMessage": "chore(release): %s"
+    "commitMessage": "🔖 %s"
   },
   "github": {
     "release": true,
-    "releaseName": "v%s",
+    "releaseName": "🚀 Release %s",
     "tokenRef": "GITHUB_TOKEN"
   },
   "npm": {
