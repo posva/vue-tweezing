@@ -3,6 +3,16 @@
   "version": "0.0.0",
   "description": "Automatic tweening values provided in a scoped slot",
   "main": "dist/vue-tweezing.cjs.js",
+  "author": {
+    "name": "Eduardo San Martin Morote",
+    "email": "posva13@gmail.com"
+  },
+  "files": [
+    "src",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@tweenjs/tween.js": "^17.2.0",
