@@ -4,7 +4,7 @@ vue-tweezing
 > Easy, customizable and automatic tweening nicely served in scoped slots
 
 VueTweezing works with any tweening engine and provide easy integration with some engines like
-[Tween.js](), [Tweezer]() and [Shiftly]().
+[tween.js](https://github.com/tweenjs/tween.js) and [Tweezer](https://github.com/jaxgeller/tweezer.js/)
 
 Demo (TODO link)
 
