@@ -15,7 +15,7 @@ Install it as a plugin:
 ```js
 import { Tweezing, tweezerHelper } from 'vue-tweezing'
 // import Tweezer to use it as our Tweening engine
-import Tweezer 'tweezer.js'
+import Tweezer from 'tweezer.js'
 
 // install the plugin with one single engines
 // use the tweezerHelper to generate the function
@@ -62,11 +62,15 @@ Any prop passed to `Tweezing` different from `tween` and `to` will be considered
 
 ## Supported Tweening engines
 
+WIP
+
 ### Tweezer
 
 ### Tween.js
 
 ### Adding your own
+
+WIP
 
 You can check the examples in `src/index.js` to see how to create your own helpers.
 
