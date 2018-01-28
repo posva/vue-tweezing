@@ -93,10 +93,11 @@ export function tweenjsHelper (TWEEN) {
     return new TWEEN.Tween(container)
       .to({ value: end }, opts.duration)
       .easing(TWEEN.Easing.Quadratic.Out)
+      .onStart(() => this.$emit('start'))
       .onUpdate(() => {
         this.value = container.value
       })
-      .onComplete(() => this.done())
+      .onComplete(() => this.$emit('end'))
       .start()
   }
 }

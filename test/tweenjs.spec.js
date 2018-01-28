@@ -19,6 +19,11 @@ class Tween {
     return this
   }
 
+  onStart (fn) {
+    this.startFn = fn
+    return this
+  }
+
   onUpdate (fn) {
     this.tick = fn
     return this
@@ -30,6 +35,7 @@ class Tween {
   }
 
   start () {
+    this.startFn()
     this.value = this.startValue
     this.tick(this.value)
     return this
@@ -72,7 +78,7 @@ describe('tween.js', () => {
     expect(wrapper.text()).toBe('0')
   })
 
-  test.only('emits start when starting', () => {
+  test('emits start when starting', () => {
     const tweezing = wrapper.find(Tweezing)
     expect(tweezing.emitted().start).toBeTruthy()
     expect(tweezing.emitted().start.length).toBe(1)
@@ -102,8 +108,9 @@ describe('tween.js', () => {
     Mock.prototype = Tween.prototype
     const localVue = createLocalVue()
     localVue.use(Tweezing, {
-      tweezer: tweenjsHelper(Mock),
+      tweezer: tweenjsHelper({ Tween: Mock, Easing }),
     })
+    const spyTo = jest.spyOn(Tween.prototype, 'to')
     wrapper = mount(Helper, {
       localVue,
       propsData: {
@@ -114,11 +121,10 @@ describe('tween.js', () => {
       },
     })
     expect(spy).toHaveBeenCalledWith({
-      start: 0,
-      end: 0,
-      duration: 10,
-      other: true,
+      value: 0,
     })
+    expect(spyTo).toHaveBeenCalledWith({ value: 0 }, 10)
     spy.mockRestore()
+    spyTo.mockRestore()
   })
 })
