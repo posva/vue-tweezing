@@ -8,7 +8,7 @@
 import { Tweezing } from '../src'
 
 export default {
-  props: ['to'],
+  props: ['to', 'duration', 'other'],
   components: { Tweezing },
 }
 </script>

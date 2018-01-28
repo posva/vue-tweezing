@@ -40,23 +40,21 @@ localVue.use(Tweezing, {
 })
 
 describe('Tweezer', () => {
-  test('starts right away', () => {
-    const wrapper = mount(Helper, {
+  let wrapper
+  beforeEach(() => {
+    wrapper = mount(Helper, {
       localVue,
       propsData: {
         to: 0,
       },
     })
+  })
+
+  test('starts right away', () => {
     expect(wrapper.text()).toBe('0')
   })
 
   test('emits done when done', () => {
-    const wrapper = mount(Helper, {
-      localVue,
-      propsData: {
-        to: 0,
-      },
-    })
     const tweezing = wrapper.find(Tweezing)
     tweezing.vm.$tween._end()
     expect(tweezing.emitted().done).toBeTruthy()
@@ -64,16 +62,39 @@ describe('Tweezer', () => {
   })
 
   test('stops ongoing tween with a new one', () => {
-    const wrapper = mount(Helper, {
-      localVue,
-      propsData: {
-        to: 0,
-      },
-    })
     const tweezing = wrapper.find(Tweezing)
     const spy = jest.spyOn(tweezing.vm.$tween, 'stop')
     wrapper.setProps({ to: 1 })
     expect(spy).toHaveBeenCalled()
+    spy.mockRestore()
+  })
+
+  test('should pass on props as options', () => {
+    const spy = jest.fn()
+    function Mock (...args) {
+      spy(...args)
+      Tweezer.apply(this, args)
+    }
+    Mock.prototype = Tweezer.prototype
+    const localVue = createLocalVue()
+    localVue.use(Tweezing, {
+      tweezer: tweezerHelper(Mock),
+    })
+    wrapper = mount(Helper, {
+      localVue,
+      propsData: {
+        to: 0,
+        // these have to be added in Helper.vue
+        duration: 10,
+        other: true,
+      },
+    })
+    expect(spy).toHaveBeenCalledWith({
+      start: 0,
+      end: 0,
+      duration: 10,
+      other: true,
+    })
     spy.mockRestore()
   })
 })
