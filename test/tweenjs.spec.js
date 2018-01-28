@@ -1,62 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import { Tweezing, tweenjsHelper } from '../src'
-import { Easing } from '@tweenjs/tween.js'
+import TWEEN, { Tween } from './mocks/tweenjs'
 import Helper from './utils/Helper'
-
-class Tween {
-  constructor ({ value }) {
-    this.startValue = value
-  }
-
-  to ({ value }, options) {
-    this.endValue = value
-    this.options = options
-    return this
-  }
-
-  easing (easing) {
-    this.easing = easing
-    return this
-  }
-
-  onStart (fn) {
-    this.startFn = fn
-    return this
-  }
-
-  onUpdate (fn) {
-    this.tick = fn
-    return this
-  }
-
-  onComplete (fn) {
-    this.done = fn
-    return this
-  }
-
-  start () {
-    this.startFn()
-    this.value = this.startValue
-    this.tick(this.value)
-    return this
-  }
-
-  stop () {
-    return this
-  }
-
-  // Custom function to make it end
-  _end () {
-    this.value = this.endValue
-    this.tick(this.value)
-    this.done()
-  }
-}
-
-const TWEEN = {
-  Tween,
-  Easing,
-}
 
 const localVue = createLocalVue()
 localVue.use(Tweezing, {
@@ -108,7 +53,7 @@ describe('tween.js', () => {
     Mock.prototype = Tween.prototype
     const localVue = createLocalVue()
     localVue.use(Tweezing, {
-      tweezer: tweenjsHelper({ Tween: Mock, Easing }),
+      tweezer: tweenjsHelper({ ...TWEEN, Tween: Mock }),
     })
     const spyTo = jest.spyOn(Tween.prototype, 'to')
     wrapper = mount(Helper, {
