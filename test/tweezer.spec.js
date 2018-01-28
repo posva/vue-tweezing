@@ -44,32 +44,57 @@ describe('Tweezer', () => {
     spy.mockRestore()
   })
 
-  test('should pass on props as options', () => {
-    const spy = jest.fn()
-    function Mock (...args) {
-      spy(...args)
-      Tweezer.apply(this, args)
-    }
-    Mock.prototype = Tweezer.prototype
-    const localVue = createLocalVue()
-    localVue.use(Tweezing, {
-      tweezer: tweezerHelper(Mock),
+  describe('Options', () => {
+    let spy
+    let localVue
+    beforeEach(() => {
+      spy = jest.fn()
+      function Mock (...args) {
+        spy(...args)
+        Tweezer.apply(this, args)
+      }
+      Mock.prototype = Tweezer.prototype
+      localVue = createLocalVue()
+      localVue.use(Tweezing, {
+        tweezer: tweezerHelper(Mock),
+      })
     })
-    wrapper = mount(Helper, {
-      localVue,
-      propsData: {
-        to: 0,
-        // these have to be added in Helper.vue
+
+    afterEach(() => {
+      spy.mockRestore()
+    })
+
+    test('should pass on props as options', () => {
+      wrapper = mount(Helper, {
+        localVue,
+        propsData: {
+          to: 0,
+          // these have to be added in Helper.vue
+          duration: 10,
+          other: true,
+        },
+      })
+      expect(spy).toHaveBeenCalledWith({
+        start: 0,
+        end: 0,
         duration: 10,
         other: true,
-      },
+      })
     })
-    expect(spy).toHaveBeenCalledWith({
-      start: 0,
-      end: 0,
-      duration: 10,
-      other: true,
+
+    test('pass on easing prop', () => {
+      wrapper = mount(Helper, {
+        localVue,
+        propsData: {
+          to: 0,
+          easing: 'foo',
+        },
+      })
+      expect(spy).toHaveBeenCalledWith({
+        start: 0,
+        end: 0,
+        easing: 'foo',
+      })
     })
-    spy.mockRestore()
   })
 })
