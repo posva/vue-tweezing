@@ -21,24 +21,38 @@ function other () {
 }
 
 describe('Tweezing', () => {
-  test('changes the value', () => {
-    const localVue = createLocalVue()
-    localVue.use(Tweezing, {
-      custom,
+  describe('Custom tween', () => {
+    let wrapper
+    beforeEach(() => {
+      const localVue = createLocalVue()
+      localVue.use(Tweezing, {
+        custom,
+      })
+
+      wrapper = mount(Helper, {
+        localVue,
+        propsData: {
+          to: 0,
+          tween: undefined,
+        },
+      })
     })
 
-    const wrapper = mount(Helper, {
-      localVue,
-      propsData: {
-        to: 0,
-      },
+    test('changes the value', () => {
+      tween.start()
+      wrapper.setProps({ to: 1 })
+      expect(wrapper.text()).toBe('0')
+      tween.end()
+      wrapper.update()
+      expect(wrapper.text()).toBe('1')
     })
-    tween.start()
-    wrapper.setProps({ to: 1 })
-    expect(wrapper.text()).toBe('0')
-    tween.end()
-    wrapper.update()
-    expect(wrapper.text()).toBe('1')
+
+    test('can use custom tween function', () => {
+      expect(wrapper.find(Tweezing).vm.tweenFn).toBe(custom)
+      const spy = jest.fn()
+      wrapper.setProps({ tween: spy })
+      expect(wrapper.find(Tweezing).vm.tweenFn).toBe(spy)
+    })
   })
 
   test('register Tweezing component by default', () => {
