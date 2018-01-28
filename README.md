@@ -27,7 +27,7 @@ Vue.use(Tweezing, {
 Use it as a component:
 
 ```html
-<Tweezing ref="tweezing" :to="value" duration="500" @done="doSomething">
+<Tweezing ref="tweezing" :to="value" duration="500" @end="doSomething">
   <pre slot-scope="tweenedValue">
     target: {{ value }}
     val: {{ tweenedValue }}
