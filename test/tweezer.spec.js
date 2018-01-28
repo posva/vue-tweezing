@@ -1,37 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import { Tweezing, tweezerHelper } from '../src'
+import Tweezer from './mocks/tweezer'
 import Helper from './utils/Helper'
-
-class Tweezer {
-  constructor ({ start, end }) {
-    this.start = start
-    this.end = end
-    this.tick = () => {}
-    this.done = () => {}
-  }
-
-  on (event, fn) {
-    this[event] = fn
-    return this
-  }
-
-  begin () {
-    this.value = this.start
-    this.tick(this.value)
-    return this
-  }
-
-  stop () {
-    return this
-  }
-
-  // Custom function to make it end
-  _end () {
-    this.value = this.end
-    this.tick(this.value)
-    this.done()
-  }
-}
 
 const localVue = createLocalVue()
 localVue.use(Tweezing, {
