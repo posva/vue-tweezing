@@ -72,4 +72,16 @@ describe('tween.js', () => {
     spy.mockRestore()
     spyTo.mockRestore()
   })
+
+  test('pass on easing prop', () => {
+    const spy = jest.spyOn(Tween.prototype, 'easing')
+    wrapper = mount(Helper, {
+      localVue,
+      propsData: {
+        to: 0,
+        easing: 'foo',
+      },
+    })
+    expect(spy).toHaveBeenCalledWith('foo')
+  })
 })

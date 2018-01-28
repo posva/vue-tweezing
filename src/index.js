@@ -92,7 +92,7 @@ export function tweenjsHelper (TWEEN) {
     this.$tween && this.$tween.stop()
     return new TWEEN.Tween(container)
       .to({ value: end }, opts.duration)
-      .easing(TWEEN.Easing.Quadratic.Out)
+      .easing(opts.easing || TWEEN.Easing.Quadratic.Out)
       .onStart(() => this.$emit('start'))
       .onUpdate(() => {
         this.value = container.value
