@@ -1,5 +1,5 @@
 <template>
-  <Tweezing v-bind="$attrs">
+  <Tweezing v-bind="$props">
     <pre slot-scope="val">{{ val }}</pre>
   </Tweezing>
 </template>
@@ -8,9 +8,7 @@
 import { Tweezing } from '../src'
 
 export default {
-  data: () => ({
-    value: 0,
-  }),
+  props: ['to'],
   components: { Tweezing },
 }
 </script>
