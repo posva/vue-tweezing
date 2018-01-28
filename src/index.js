@@ -92,7 +92,7 @@ export function tweenjsHelper (TWEEN) {
     this.$tween && this.$tween.stop()
     return new TWEEN.Tween(container)
       .to({ value: end }, opts.duration)
-      .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+      .easing(TWEEN.Easing.Quadratic.Out)
       .onUpdate(() => {
         this.value = container.value
       })
