@@ -73,6 +73,8 @@ export const Tweezing = {
 // helper for tweezer.js
 export function tweezerHelper (Tweezer) {
   return function (start, end, opts) {
+    // cancel previous tween
+    this.$tween && this.$tween.stop()
     return new Tweezer({
       start,
       end,
@@ -87,6 +89,8 @@ export function tweezerHelper (Tweezer) {
 export function tweenjsHelper (TWEEN) {
   return function (value, end, opts) {
     const container = { value }
+    // cancel previous tween
+    this.$tween && this.$tween.stop()
     return new TWEEN.Tween(container)
       .to({ value: end }, opts.duration)
       .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
