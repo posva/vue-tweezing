@@ -12,6 +12,14 @@ function custom (start, end, opts) {
   return tween
 }
 
+function other () {
+  tween = {
+    start: () => this.value = 0,
+    end: () => this.value = 10,
+  }
+  return tween
+}
+
 describe('Tweezing', () => {
   test('changes the value', () => {
     const localVue = createLocalVue()
@@ -48,5 +56,26 @@ describe('Tweezing', () => {
 
     expect(localVue.component('Tweezing')).not.toBeDefined()
     expect(localVue.component('MyTween')).toBeDefined()
+  })
+
+  test('use multiple tween engines', () => {
+    const localVue = createLocalVue()
+    localVue.use(Tweezing, {
+      custom,
+      other,
+    })
+
+    const wrapper = mount(Helper, {
+      localVue,
+      propsData: {
+        to: 0,
+        tween: 'other',
+      },
+    })
+    expect(wrapper.find(Tweezing).vm.tweenFn).toBe(other)
+    wrapper.setProps({ tween: 'custom' })
+    expect(wrapper.find(Tweezing).vm.tweenFn).toBe(custom)
+    wrapper.setProps({ tween: 'default' })
+    expect(wrapper.find(Tweezing).vm.tweenFn).toBe(custom)
   })
 })
