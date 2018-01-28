@@ -75,11 +75,16 @@ export function tweezerHelper (Tweezer) {
   return function (start, end, opts) {
     // cancel previous tween
     this.$tween && this.$tween.stop()
+    let started
     return new Tweezer({
       start,
       end,
       ...opts,
     }).on('tick', value => {
+      if (!started) {
+        started = true
+        this.$emit('start')
+      }
       this.value = value
     }).on('done', () => this.done())
       .begin()

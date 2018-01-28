@@ -54,6 +54,12 @@ describe('Tweezer', () => {
     expect(wrapper.text()).toBe('0')
   })
 
+  test('emits start when starting', () => {
+    const tweezing = wrapper.find(Tweezing)
+    expect(tweezing.emitted().start).toBeTruthy()
+    expect(tweezing.emitted().start.length).toBe(1)
+  })
+
   test('emits done when done', () => {
     const tweezing = wrapper.find(Tweezing)
     tweezing.vm.$tween._end()
