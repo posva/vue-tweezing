@@ -67,7 +67,7 @@
     },
     "coveragePathIgnorePatterns": [
       "<rootDir>/test/*.js",
-      "<rootDir>/test/Helper.vue",
+      "<rootDir>/test/utils/Helper.vue",
       "<rootDir>/test/.*.js",
       "<rootDir>/test/*/*.js"
     ]
