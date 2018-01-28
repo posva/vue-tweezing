@@ -1,7 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import { Tweezing, tweezerHelper } from '../src'
-// import Tweezer from 'tweezer.js'
-import Helper from './Helper'
+import Helper from './utils/Helper'
 
 class Tweezer {
   constructor ({ start, end }) {

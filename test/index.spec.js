@@ -1,6 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import { Tweezing } from '../src'
-import Helper from './Helper'
+import Helper from './utils/Helper'
 
 // TODO use custom tweening
 let tween

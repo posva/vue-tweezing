@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import { Tweezing, tweenjsHelper } from '../src'
 import { Easing } from '@tweenjs/tween.js'
-import Helper from './Helper'
+import Helper from './utils/Helper'
 
 class Tween {
   constructor ({ value }) {

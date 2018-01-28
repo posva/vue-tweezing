@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { Tweezing } from '../src'
+import { Tweezing } from '../../src'
 
 export default {
   props: ['to', 'duration', 'other'],
