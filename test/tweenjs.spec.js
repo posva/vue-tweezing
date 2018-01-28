@@ -84,4 +84,16 @@ describe('tween.js', () => {
     })
     expect(spy).toHaveBeenCalledWith('foo')
   })
+
+  test('pass on interpolation prop', () => {
+    const spy = jest.spyOn(Tween.prototype, 'interpolation')
+    wrapper = mount(Helper, {
+      localVue,
+      propsData: {
+        to: 0,
+        interpolation: 'foo',
+      },
+    })
+    expect(spy).toHaveBeenCalledWith('foo')
+  })
 })

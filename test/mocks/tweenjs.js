@@ -1,4 +1,4 @@
-import { Easing } from '@tweenjs/tween.js'
+import { Easing, Interpolation } from '@tweenjs/tween.js'
 
 export class Tween {
   constructor ({ value }) {
@@ -11,8 +11,11 @@ export class Tween {
     return this
   }
 
-  easing (easing) {
-    this.easing = easing
+  interpolation () {
+    return this
+  }
+
+  easing () {
     return this
   }
 
@@ -53,4 +56,5 @@ export class Tween {
 export default {
   Tween,
   Easing,
+  Interpolation,
 }
