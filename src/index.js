@@ -33,12 +33,6 @@ export const Tweezing = {
     return node
   },
 
-  methods: {
-    done () {
-      this.$emit('done')
-    },
-  },
-
   watch: {
     tween  (tween) {
       if (typeof tween === 'function') {
@@ -86,7 +80,7 @@ export function tweezerHelper (Tweezer) {
         this.$emit('start')
       }
       this.value = value
-    }).on('done', () => this.done())
+    }).on('done', () => this.$emit('end'))
       .begin()
   }
 }

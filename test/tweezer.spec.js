@@ -60,11 +60,11 @@ describe('Tweezer', () => {
     expect(tweezing.emitted().start.length).toBe(1)
   })
 
-  test('emits done when done', () => {
+  test('emits end when ending', () => {
     const tweezing = wrapper.find(Tweezing)
     tweezing.vm.$tween._end()
-    expect(tweezing.emitted().done).toBeTruthy()
-    expect(tweezing.emitted().done.length).toBe(1)
+    expect(tweezing.emitted().end).toBeTruthy()
+    expect(tweezing.emitted().end.length).toBe(1)
   })
 
   test('stops ongoing tween with a new one', () => {
