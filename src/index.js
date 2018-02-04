@@ -3,7 +3,7 @@ const tweeners = {}
 
 export const Tweezing = {
   props: {
-    to: Number,
+    to: [Number, Object],
     tween: {
       type: [String, Function],
       default: () => 'default',
@@ -33,6 +33,23 @@ export const Tweezing = {
     return node
   },
 
+  methods: {
+    ensureValue (val) {
+      const targetType = typeof val
+      const currentType = typeof this.value
+      if (targetType === currentType) return
+      // set initial value to current value
+      if (targetType === 'number') {
+        this.value = val
+      } else if (targetType === 'object') {
+        this.value = Object.keys(val).reduce((values, name) => {
+          values[name] = val[name]
+          return values
+        }, {})
+      }
+    },
+  },
+
   watch: {
     tween  (tween) {
       if (typeof tween === 'function') {
@@ -43,7 +60,27 @@ export const Tweezing = {
       }
     },
     to (to, old) {
-      this.$tween = this.tweenFn(this.value, to, this.$attrs)
+      const type = typeof to
+      this.ensureValue(to)
+
+      if (type === 'number') {
+        this.$tween = this.tweenFn(this.value, to, {
+          $setValue: v => {
+            this.value = v
+          },
+          ...this.$attrs,
+        })
+      } else if (type === 'object') {
+        this.$tween = Object.keys(to).reduce((tweens, name) => {
+          tweens[name] = this.tweenFn(this.value[name], to[name], {
+            $setValue: v => {
+              this.value[name] = v
+            },
+            ...this.$attrs,
+          })
+          return tweens
+        }, Object.create(null))
+      }
     },
   },
 
@@ -68,7 +105,13 @@ export const Tweezing = {
 export function tweezerHelper (Tweezer) {
   return function (start, end, opts) {
     // cancel previous tween
-    this.$tween && this.$tween.stop()
+    if (this.$tween) {
+      if (!this.$tween.__proto__) {
+        for (const key in this.$tween) this.$tween[key].stop()
+      } else {
+        this.$tween.stop()
+      }
+    }
     let started
     return new Tweezer({
       start,
@@ -79,7 +122,7 @@ export function tweezerHelper (Tweezer) {
         started = true
         this.$emit('start')
       }
-      this.value = value
+      opts.$setValue(value)
     }).on('done', () => this.$emit('end'))
       .begin()
   }
@@ -96,7 +139,7 @@ export function tweenjsHelper (TWEEN) {
       .easing(opts.easing || TWEEN.Easing.Quadratic.Out)
       .onStart(() => this.$emit('start'))
       .onUpdate(() => {
-        this.value = container.value
+        opts.$setValue(container.value)
       })
       .onComplete(() => this.$emit('end'))
       .start()

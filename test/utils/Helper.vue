@@ -1,6 +1,6 @@
 <template>
   <Tweezing v-bind="$props">
-    <pre slot-scope="val">{{ val }}</pre>
+    <pre slot-scope="val">{{ val | trim }}</pre>
   </Tweezing>
 </template>
 
@@ -10,5 +10,10 @@ import { Tweezing } from '../../src'
 export default {
   props: ['to', 'duration', 'other', 'easing', 'interpolation', 'tween'],
   components: { Tweezing },
+  filters: {
+    trim (v) {
+      return JSON.stringify(v).replace(/\s+/g, '')
+    },
+  },
 }
 </script>

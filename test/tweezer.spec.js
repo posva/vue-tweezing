@@ -36,6 +36,18 @@ describe('Tweezer', () => {
     expect(tweezing.emitted().end.length).toBe(1)
   })
 
+  test('accepts an object of values', () => {
+    const tweezing = wrapper.find(Tweezing)
+    wrapper.setProps({ to: { a: 0, b: 0 } })
+    // tweezing.vm.$tween._start()
+    wrapper.setProps({ to: { a: 1, b: 1 } })
+    expect(wrapper.text()).toBe('{"a":0,"b":0}')
+    tweezing.vm.$tween.a._end()
+    tweezing.vm.$tween.b._end()
+    wrapper.update()
+    expect(wrapper.text()).toBe('{"a":1,"b":1}')
+  })
+
   test('stops ongoing tween with a new one', () => {
     const tweezing = wrapper.find(Tweezing)
     const spy = jest.spyOn(tweezing.vm.$tween, 'stop')
@@ -74,12 +86,12 @@ describe('Tweezer', () => {
           other: true,
         },
       })
-      expect(spy).toHaveBeenCalledWith({
-        start: 0,
-        end: 0,
-        duration: 10,
-        other: true,
-      })
+      const opts = spy.mock.calls[0][0]
+      expect(opts).toBeTruthy()
+      expect(opts.start).toBe(0)
+      expect(opts.end).toBe(0)
+      expect(opts.duration).toBe(10)
+      expect(opts.other).toBe(true)
     })
 
     test('pass on easing prop', () => {
@@ -90,11 +102,11 @@ describe('Tweezer', () => {
           easing: 'foo',
         },
       })
-      expect(spy).toHaveBeenCalledWith({
-        start: 0,
-        end: 0,
-        easing: 'foo',
-      })
+      const opts = spy.mock.calls[0][0]
+      expect(opts).toBeTruthy()
+      expect(opts.start).toBe(0)
+      expect(opts.end).toBe(0)
+      expect(opts.easing).toBe('foo')
     })
   })
 })
