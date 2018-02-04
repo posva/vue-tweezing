@@ -106,7 +106,9 @@ export function tweezerHelper (Tweezer) {
   return function (start, end, opts) {
     // cancel previous tween
     if (this.$tween) {
-      if (!this.$tween.__proto__) {
+      // TODO use a better method
+      // the prototype is null when using objects
+      if (!Object.getPrototypeOf(this.$tween)) {
         for (const key in this.$tween) this.$tween[key].stop()
       } else {
         this.$tween.stop()
