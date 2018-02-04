@@ -1,12 +1,12 @@
 import { Easing, Interpolation } from '@tweenjs/tween.js'
 
 export class Tween {
-  constructor ({ value }) {
-    this.startValue = value
+  constructor (container) {
+    this.startValue = container
   }
 
-  to ({ value }, options) {
-    this.endValue = value
+  to (container, options) {
+    this.endValue = container
     this.options = options
     return this
   }
@@ -47,7 +47,7 @@ export class Tween {
 
   // Custom function to make it end
   _end () {
-    this.value = this.endValue
+    Object.assign(this.value, this.endValue)
     this.tick(this.value)
     this.done()
   }

@@ -59,6 +59,7 @@ export const Tweezing = {
         this.tweenFn = tweeners[tween]
       }
     },
+    // TODO should probably be deep
     to (to, old) {
       const type = typeof to
       this.ensureValue(to)
@@ -101,19 +102,23 @@ export const Tweezing = {
   },
 }
 
+function stopTweens (tweens) {
+  if (tweens) {
+    // TODO use a better method
+    // the prototype is null when using objects
+    if (!Object.getPrototypeOf(tweens)) {
+      for (const key in tweens) tweens[key].stop()
+    } else {
+      tweens.stop()
+    }
+  }
+}
+
 // helper for tweezer.js
 export function tweezerHelper (Tweezer) {
   return function (start, end, opts) {
     // cancel previous tween
-    if (this.$tween) {
-      // TODO use a better method
-      // the prototype is null when using objects
-      if (!Object.getPrototypeOf(this.$tween)) {
-        for (const key in this.$tween) this.$tween[key].stop()
-      } else {
-        this.$tween.stop()
-      }
-    }
+    stopTweens(this.$tween)
     let started
     return new Tweezer({
       start,
@@ -134,11 +139,13 @@ export function tweenjsHelper (TWEEN) {
   return function (value, end, opts) {
     const container = { value }
     // cancel previous tween
-    this.$tween && this.$tween.stop()
+    stopTweens(this.$tween)
     return new TWEEN.Tween(container)
       .to({ value: end }, opts.duration)
       .interpolation(opts.interpolation || TWEEN.Interpolation.Linear)
       .easing(opts.easing || TWEEN.Easing.Quadratic.Out)
+    // TODO should probably emit the name of the property too
+    // default could be the name if only one value is provided
       .onStart(() => this.$emit('start'))
       .onUpdate(() => {
         opts.$setValue(container.value)
