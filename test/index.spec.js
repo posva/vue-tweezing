@@ -8,6 +8,7 @@ function custom (start, end, opts) {
   tween = {
     start: () => this.value = start,
     end: () => this.value = end,
+    stop () { this.end() },
   }
   return tween
 }

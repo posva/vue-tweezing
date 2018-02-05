@@ -64,6 +64,7 @@ export const Tweezing = {
       const type = typeof to
       this.ensureValue(to)
 
+      stopTweens(this.$tween)
       if (type === 'number') {
         this.$tween = this.tweenFn(this.value, to, {
           $setValue: v => {
@@ -107,6 +108,7 @@ function stopTweens (tweens) {
     // TODO use a better method
     // the prototype is null when using objects
     if (!Object.getPrototypeOf(tweens)) {
+      // TODO not all tweens have a stop method
       for (const key in tweens) tweens[key].stop()
     } else {
       tweens.stop()
@@ -118,7 +120,6 @@ function stopTweens (tweens) {
 export function tweezerHelper (Tweezer) {
   return function (start, end, opts) {
     // cancel previous tween
-    stopTweens(this.$tween)
     let started
     return new Tweezer({
       start,
@@ -139,7 +140,6 @@ export function tweenjsHelper (TWEEN) {
   return function (value, end, opts) {
     const container = { value }
     // cancel previous tween
-    stopTweens(this.$tween)
     return new TWEEN.Tween(container)
       .to({ value: end }, opts.duration)
       .interpolation(opts.interpolation || TWEEN.Interpolation.Linear)
