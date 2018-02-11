@@ -3,7 +3,7 @@ const tweeners = {}
 
 export const Tweezing = {
   props: {
-    to: [Number, Object],
+    to: [Number, Object, Array],
     tween: {
       type: [String, Function],
       default: () => 'default',

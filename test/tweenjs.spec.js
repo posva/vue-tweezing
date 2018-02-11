@@ -48,6 +48,20 @@ describe('tween.js', () => {
     expect(wrapper.text()).toBe('{"a":1,"b":1}')
   })
 
+  test('accepts an array of values', () => {
+    const tweezing = wrapper.find(Tweezing)
+    wrapper.setProps({ to: [0, 0] })
+    // tweezing.vm.$tween._start()
+    wrapper.setProps({ to: [1, 2] })
+    expect(wrapper.text()).toBe('{"0":0,"1":0}')
+    // expect(wrapper.text()).toBe('[0, 0]')
+    tweezing.vm.$tween['0']._end()
+    tweezing.vm.$tween['1']._end()
+    wrapper.update()
+    expect(wrapper.text()).toBe('{"0":1,"1":2}')
+    // expect(wrapper.text()).toBe('[1, 2]')
+  })
+
   test('stops ongoing tween with a new one', () => {
     const tweezing = wrapper.find(Tweezing)
     const spy = jest.spyOn(tweezing.vm.$tween, 'stop')
