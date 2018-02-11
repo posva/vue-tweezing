@@ -15,6 +15,12 @@ val: {{ val }}
         </pre>
       </template>
     </Tweezing>
+
+    <input type="number" v-model.number="value" />
+    <input type="number" v-model.number="duration" />
+    <Tweezing :to="object" tween="tweenjs" :duration="500">
+      <pre slot-scope="data">{{ data }}</pre>
+    </Tweezing>
   </div>
 </template>
 
@@ -47,9 +53,18 @@ export default {
     toggle () {
       const target = 200
       this.value = this.value > target / 2 ? 0 : target
-    }
+    },
   },
 
-  components: { Tweezing }
+  computed: {
+    object () {
+      return {
+        value: this.value,
+        duration: this.duration,
+      }
+    },
+  },
+
+  components: { Tweezing },
 }
 </script>
