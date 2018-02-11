@@ -41,6 +41,8 @@ export const Tweezing = {
       // set initial value to current value
       if (targetType === 'number') {
         this.value = val
+      } else if (Array.isArray(val)) {
+        this.value = val.slice()
       } else if (targetType === 'object') {
         this.value = Object.keys(val).reduce((values, name) => {
           values[name] = val[name]
@@ -72,6 +74,16 @@ export const Tweezing = {
           },
           ...this.$attrs,
         })
+      } else if (Array.isArray(to)) {
+        this.$tween = to.map((value, i) => {
+          return this.tweenFn(this.value[i] || 0, value, {
+            $setValue: v => {
+              this.value.splice(i, 1, v)
+            },
+            ...this.$attrs,
+          })
+        })
+        console.log('array', this.$tween)
       } else if (type === 'object') {
         this.$tween = Object.keys(to).reduce((tweens, name) => {
           tweens[name] = this.tweenFn(this.value[name], to[name], {
@@ -107,7 +119,9 @@ function stopTweens (tweens) {
   if (tweens) {
     // TODO use a better method
     // the prototype is null when using objects
-    if (!Object.getPrototypeOf(tweens)) {
+    if (Array.isArray(tweens)) {
+      tweens.forEach(tween => tween.stop())
+    } else if (!Object.getPrototypeOf(tweens)) {
       // TODO not all tweens have a stop method
       for (const key in tweens) tweens[key].stop()
     } else {

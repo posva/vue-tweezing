@@ -21,6 +21,9 @@ val: {{ val }}
     <Tweezing :to="object" tween="tweenjs" :duration="500">
       <pre slot-scope="data">{{ data }}</pre>
     </Tweezing>
+    <Tweezing :to="array" tween="tweenjs" :duration="500">
+      <pre slot-scope="data">{{ data }}</pre>
+    </Tweezing>
   </div>
 </template>
 
@@ -50,18 +53,21 @@ export default {
   }),
 
   methods: {
-    toggle () {
+    toggle() {
       const target = 200
       this.value = this.value > target / 2 ? 0 : target
     },
   },
 
   computed: {
-    object () {
+    object() {
       return {
         value: this.value,
         duration: this.duration,
       }
+    },
+    array() {
+      return [this.value, this.duration]
     },
   },
 
