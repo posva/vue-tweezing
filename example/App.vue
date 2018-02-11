@@ -48,6 +48,7 @@ export default {
   data: () => ({
     value: 0,
     duration: 500,
+    array: [0],
     // could also be just 'tweezer'
     tween: tweezerHelper(Tweezer),
   }),
@@ -56,6 +57,7 @@ export default {
     toggle() {
       const target = 200
       this.value = this.value > target / 2 ? 0 : target
+      this.array = Array.from(Array(1 + Math.floor(Math.random() * 3)), () => target * Math.random())
     },
   },
 
@@ -65,9 +67,6 @@ export default {
         value: this.value,
         duration: this.duration,
       }
-    },
-    array() {
-      return [this.value, this.duration]
     },
   },
 
