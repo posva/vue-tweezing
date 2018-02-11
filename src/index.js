@@ -37,7 +37,12 @@ export const Tweezing = {
     ensureValue (val) {
       const targetType = typeof val
       const currentType = typeof this.value
-      if (targetType === currentType) return
+      if (targetType === currentType) {
+        if (Array.isArray(val)) {
+          this.value.length = val.length
+        }
+        return
+      }
       // set initial value to current value
       if (targetType === 'number') {
         this.value = val
@@ -83,7 +88,6 @@ export const Tweezing = {
             ...this.$attrs,
           })
         })
-        console.log('array', this.$tween)
       } else if (type === 'object') {
         this.$tween = Object.keys(to).reduce((tweens, name) => {
           tweens[name] = this.tweenFn(this.value[name], to[name], {
