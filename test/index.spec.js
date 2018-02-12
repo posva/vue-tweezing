@@ -39,6 +39,26 @@ describe('Tweezing', () => {
       })
     })
 
+    test('pass right parameters', () => {
+      const localVue = createLocalVue()
+      const spy = jest.fn()
+      localVue.use(Tweezing, {
+        custom: spy,
+      })
+
+      wrapper = mount(Helper, {
+        localVue,
+        propsData: {
+          to: 0,
+          tween: undefined,
+        },
+      })
+      expect(spy).toHaveBeenCalled()
+      expect(spy.mock.calls[0][0]).toBe(0)
+      expect(spy.mock.calls[0][1]).toBe(0)
+      expect(spy.mock.calls[0][3]).toBe(wrapper.find(Tweezing).vm)
+    })
+
     test('changes the value', () => {
       tween.start()
       wrapper.setProps({ to: 1 })
