@@ -58,7 +58,7 @@ export const Tweezing = {
   },
 
   watch: {
-    tween  (tween) {
+    tween (tween) {
       if (typeof tween === 'function') {
         this.tweenFn = tween
       } else {
@@ -78,7 +78,7 @@ export const Tweezing = {
             this.value = v
           },
           ...this.$attrs,
-        })
+        }, this)
       } else if (Array.isArray(to)) {
         this.$tween = to.map((value, i) => {
           return this.tweenFn(this.value[i] || 0, value, {
@@ -162,8 +162,8 @@ export function tweenjsHelper (TWEEN) {
       .to({ value: end }, opts.duration)
       .interpolation(opts.interpolation || TWEEN.Interpolation.Linear)
       .easing(opts.easing || TWEEN.Easing.Quadratic.Out)
-    // TODO should probably emit the name of the property too
-    // default could be the name if only one value is provided
+      // TODO should probably emit the name of the property too
+      // default could be the name if only one value is provided
       .onStart(() => this.$emit('start'))
       .onUpdate(() => {
         opts.$setValue(container.value)
