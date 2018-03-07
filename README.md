@@ -16,7 +16,7 @@ import { Tweezing, tweezerHelper } from 'vue-tweezing'
 // import Tweezer to use it as our Tweening engine
 import Tweezer from 'tweezer.js'
 
-// install the plugin with one single engines
+// install the plugin with as many engines as you want
 // use the tweezerHelper to generate the function
 // needed by VueTweezing to handle tweezing
 Vue.use(Tweezing, {
@@ -26,7 +26,7 @@ Vue.use(Tweezing, {
 
 Use it as a component:
 
-```html
+```vue
 <Tweezing ref="tweezing" :to="value" duration="500" @end="doSomething">
   <pre slot-scope="tweenedValue">
     target: {{ value }}
