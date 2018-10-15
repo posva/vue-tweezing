@@ -107,6 +107,7 @@ describe('tween.js', () => {
       },
     })
     expect(spy).toHaveBeenCalledWith('foo')
+    spy.mockRestore()
   })
 
   test('pass on interpolation prop', () => {
@@ -119,5 +120,6 @@ describe('tween.js', () => {
       },
     })
     expect(spy).toHaveBeenCalledWith('foo')
+    spy.mockRestore()
   })
 })
