@@ -1,4 +1,4 @@
-# vue-tweezing [![Build Status](https://img.shields.io/circleci/project/posva/vue-tweezing/master.svg)](https://circleci.com/gh/posva/vue-tweezing) [![npm package](https://img.shields.io/npm/v/vue-tweezing.svg)](https://www.npmjs.com/package/vue-tweezing) [![coverage](https://img.shields.io/codecov/c/github/posva/vue-tweezing.svg)](https://codecov.io/github/posva/vue-tweezing) [![thanks](https://img.shields.io/badge/thanks-%E2%99%A5-ff69b4.svg)](https://github.com/posva/thanks)
+# VueTweezing [![Build Status](https://badgen.net/circleci/github/posva/vue-tweezing)](https://circleci.com/gh/posva/vue-tweezing) [![npm package](https://badgen.net/npm/v/vue-tweezing)](https://www.npmjs.com/package/vue-tweezing) [![coverage](https://badgen.net/codecov/c/github/posva/vue-tweezing)](https://codecov.io/github/posva/vue-tweezing) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
 
 > Easy, customizable and automatic tweening nicely served in scoped slots
 
@@ -20,7 +20,7 @@ import Tweezer from 'tweezer.js'
 // use the tweezerHelper to generate the function
 // needed by VueTweezing to handle tweezing
 Vue.use(Tweezing, {
-  tweezer: tweezerHelper(Tweezer)
+  tweezer: tweezerHelper(Tweezer),
 })
 ```
 
@@ -41,8 +41,8 @@ Change `value` as you would usually do:
 const vm = new Vue({
   el: '#app',
   data: {
-    value: 0
-  }
+    value: 0,
+  },
 })
 // somewhere else
 vm.value = 200
