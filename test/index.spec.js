@@ -6,26 +6,28 @@ import Helper from './utils/Helper'
 let tween
 function custom (start, end, opts) {
   tween = {
-    start: () => this.value = start,
-    end: () => this.value = end,
-    stop () { this.end() },
+    start: () => (this.value = start),
+    end: () => (this.value = end),
+    stop () {
+      this.end()
+    },
   }
   return tween
 }
 
 function other () {
   tween = {
-    start: () => this.value = 0,
-    end: () => this.value = 10,
+    start: () => (this.value = 0),
+    end: () => (this.value = 10),
   }
   return tween
 }
 
 describe('Tweezing', () => {
   describe('Custom tween', () => {
-    let wrapper
+    let wrapper, localVue
     beforeEach(() => {
-      const localVue = createLocalVue()
+      localVue = createLocalVue()
       localVue.use(Tweezing, {
         custom,
       })
@@ -59,12 +61,21 @@ describe('Tweezing', () => {
       expect(spy.mock.calls[0][3]).toBe(wrapper.find(Tweezing).vm)
     })
 
-    test('changes the value', () => {
+    test('changes the value', async () => {
+      const wrapper = mount(Helper, {
+        localVue,
+        propsData: {
+          to: 0,
+          tween: undefined,
+        },
+        sync: false,
+      })
       tween.start()
       wrapper.setProps({ to: 1 })
+      await wrapper.vm.$nextTick()
       expect(wrapper.text()).toBe('0')
       tween.end()
-      wrapper.update()
+      await wrapper.vm.$nextTick()
       expect(wrapper.text()).toBe('1')
     })
 

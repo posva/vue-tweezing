@@ -16,6 +16,7 @@ describe('tween.js', () => {
       propsData: {
         to: 0,
       },
+      sync: false,
     })
   })
 
@@ -36,36 +37,53 @@ describe('tween.js', () => {
     expect(tweezing.emitted().end.length).toBe(1)
   })
 
-  test('accepts an object of values', () => {
-    const tweezing = wrapper.find(Tweezing)
-    wrapper.setProps({ to: { a: 0, b: 0 } })
-    // tweezing.vm.$tween._start()
-    wrapper.setProps({ to: { a: 1, b: 1 } })
-    expect(wrapper.text()).toBe('{"a":0,"b":0}')
-    tweezing.vm.$tween.a._end()
-    tweezing.vm.$tween.b._end()
-    wrapper.update()
-    expect(wrapper.text()).toBe('{"a":1,"b":1}')
-  })
+  describe('sync: false', () => {
+    test('accepts an object of values', async () => {
+      const wrapper = mount(Helper, {
+        localVue,
+        propsData: {
+          to: { a: 0, b: 0 },
+        },
+        sync: false,
+      })
+      const tweezing = wrapper.find(Tweezing)
+      // tweezing.vm.$tween._start()
+      wrapper.setProps({ to: { a: 1, b: 1 } })
+      expect(wrapper.text()).toBe('{"a":0,"b":0}')
+      await wrapper.vm.$nextTick()
+      tweezing.vm.$tween.a._end()
+      tweezing.vm.$tween.b._end()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.text()).toBe('{"a":1,"b":1}')
+    })
 
-  test('accepts an array of values', () => {
-    const tweezing = wrapper.find(Tweezing)
-    wrapper.setProps({ to: [0, 0] })
-    // tweezing.vm.$tween._start()
-    wrapper.setProps({ to: [1, 2] })
-    expect(wrapper.text()).toBe('[0,0]')
-    tweezing.vm.$tween['0']._end()
-    tweezing.vm.$tween['1']._end()
-    wrapper.update()
-    expect(wrapper.text()).toBe('[1,2]')
-  })
+    test('accepts an array of values', async () => {
+      const wrapper = mount(Helper, {
+        localVue,
+        propsData: {
+          to: [0, 0],
+        },
+        sync: false,
+      })
+      const tweezing = wrapper.find(Tweezing)
+      // tweezing.vm.$tween._start()
+      wrapper.setProps({ to: [1, 2] })
+      await wrapper.vm.$nextTick()
+      expect(wrapper.text()).toBe('[0,0]')
+      tweezing.vm.$tween['0']._end()
+      tweezing.vm.$tween['1']._end()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.text()).toBe('[1,2]')
+    })
 
-  test('stops ongoing tween with a new one', () => {
-    const tweezing = wrapper.find(Tweezing)
-    const spy = jest.spyOn(tweezing.vm.$tween, 'stop')
-    wrapper.setProps({ to: 1 })
-    expect(spy).toHaveBeenCalled()
-    spy.mockRestore()
+    test('stops ongoing tween with a new one', async () => {
+      const tweezing = wrapper.find(Tweezing)
+      const spy = jest.spyOn(tweezing.vm.$tween, 'stop')
+      wrapper.setProps({ to: 1 })
+      await wrapper.vm.$nextTick()
+      expect(spy).toHaveBeenCalled()
+      spy.mockRestore()
+    })
   })
 
   test('should pass on props as options', () => {

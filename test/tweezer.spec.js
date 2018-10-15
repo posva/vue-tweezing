@@ -36,22 +36,37 @@ describe('Tweezer', () => {
     expect(tweezing.emitted().end.length).toBe(1)
   })
 
-  test('accepts an object of values', () => {
+  test('accepts an object of values', async () => {
+    const wrapper = mount(Helper, {
+      localVue,
+      propsData: {
+        to: { a: 0, b: 0 },
+      },
+      sync: false,
+    })
     const tweezing = wrapper.find(Tweezing)
-    wrapper.setProps({ to: { a: 0, b: 0 } })
     // tweezing.vm.$tween._start()
     wrapper.setProps({ to: { a: 1, b: 1 } })
+    await wrapper.vm.$nextTick()
     expect(wrapper.text()).toBe('{"a":0,"b":0}')
     tweezing.vm.$tween.a._end()
     tweezing.vm.$tween.b._end()
-    wrapper.update()
+    await wrapper.vm.$nextTick()
     expect(wrapper.text()).toBe('{"a":1,"b":1}')
   })
 
-  test('stops ongoing tween with a new one', () => {
+  test('stops ongoing tween with a new one', async () => {
+    const wrapper = mount(Helper, {
+      localVue,
+      propsData: {
+        to: 0,
+      },
+      sync: false,
+    })
     const tweezing = wrapper.find(Tweezing)
     const spy = jest.spyOn(tweezing.vm.$tween, 'stop')
     wrapper.setProps({ to: 1 })
+    await wrapper.vm.$nextTick()
     expect(spy).toHaveBeenCalled()
     spy.mockRestore()
   })
