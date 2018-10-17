@@ -162,6 +162,7 @@ export function tweenjsHelper (TWEEN) {
       .to({ value: end }, opts.duration)
       .interpolation(opts.interpolation || TWEEN.Interpolation.Linear)
       .easing(opts.easing || TWEEN.Easing.Quadratic.Out)
+      .delay(+opts.delay || 0)
       // TODO should probably emit the name of the property too
       // default could be the name if only one value is provided
       .onStart(() => this.$emit('start'))

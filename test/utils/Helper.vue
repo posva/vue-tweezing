@@ -8,7 +8,7 @@
 import { Tweezing } from '../../src'
 
 export default {
-  props: ['to', 'duration', 'other', 'easing', 'interpolation', 'tween'],
+  props: ['to', 'duration', 'other', 'easing', 'interpolation', 'delay', 'tween'],
   components: { Tweezing },
   filters: {
     trim (v) {

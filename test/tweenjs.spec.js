@@ -140,4 +140,17 @@ describe('tween.js', () => {
     expect(spy).toHaveBeenCalledWith('foo')
     spy.mockRestore()
   })
+
+  test('pass on delay prop', () => {
+    const spy = jest.spyOn(Tween.prototype, 'delay')
+    wrapper = mount(Helper, {
+      localVue,
+      propsData: {
+        to: 0,
+        delay: 500,
+      },
+    })
+    expect(spy).toHaveBeenCalledWith(500)
+    spy.mockRestore()
+  })
 })

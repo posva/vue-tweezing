@@ -19,6 +19,10 @@ export class Tween {
     return this
   }
 
+  delay () {
+    return this
+  }
+
   onStart (fn) {
     this.startFn = fn
     return this
